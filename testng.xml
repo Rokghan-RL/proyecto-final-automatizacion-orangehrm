@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<!--
+    Suite de Pruebas Automatizadas de TestNG para OrangeHRM.
+    Configurada para ejecución Cross-Browser parametrizada (Google Chrome y Mozilla Firefox).
+-->
+<suite name="Suite de Automatizacion OrangeHRM - Proyecto Final" verbose="2">
+
+    <!-- =================================================================== -->
+    <!-- EJECUCIÓN EN GOOGLE CHROME                                          -->
+    <!-- Pasa el parámetro browser="chrome" al método @BeforeMethod          -->
+    <!-- =================================================================== -->
+    <test name="Pruebas Cross-Browser - Google Chrome">
+        <parameter name="browser" value="chrome" />
+        <classes>
+            <class name="tests.OrangeHrmTest" />
+        </classes>
+    </test>
+
+    <!-- =================================================================== -->
+    <!-- EJECUCIÓN EN MOZILLA FIREFOX                                        -->
+    <!-- Pasa el parámetro browser="firefox" al método @BeforeMethod         -->
+    <!-- =================================================================== -->
+    <test name="Pruebas Cross-Browser - Mozilla Firefox">
+        <parameter name="browser" value="firefox" />
+        <classes>
+            <class name="tests.OrangeHrmTest" />
+        </classes>
+    </test>
+
+</suite>

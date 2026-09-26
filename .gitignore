@@ -1,0 +1,17 @@
+# Archivos de compilación de Maven / Gradle
+target/
+build/
+*.class
+
+# Configuraciones de IDEs (IntelliJ, Eclipse, VS Code / Antigravity)
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+
+# Salidas de reportes de ejecución de TestNG y Surefire
+test-output/
+surefire-reports/
+*.log

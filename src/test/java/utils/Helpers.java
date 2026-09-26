@@ -67,6 +67,21 @@ public class Helpers {
     }
 
     /**
+     * Espera de manera explícita a que un elemento (como un spinner, loader o cortina de carga)
+     * desaparezca o se vuelva invisible en el DOM.
+     * Esencial para evitar condiciones de carrera con loaders (ej: .oxd-form-loader en Firefox / geckodriver).
+     * 
+     * @param driver Instancia del WebDriver en ejecución
+     * @param locator Localizador By del elemento a desaparecer
+     * @param tiempoSegundos Tiempo máximo de espera en segundos
+     * @return boolean true si desapareció exitosamente
+     */
+    public static boolean esperarInvisibilidad(WebDriver driver, By locator, int tiempoSegundos) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(tiempoSegundos));
+        return wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
+    }
+
+    /**
      * Realiza un clic seguro sobre un elemento web tras esperar a que sea clickeable.
      * Si una animación o overlay de OrangeHRM intercepta el clic nativo, recurre a JavaScriptExecutor como respaldo.
      * 

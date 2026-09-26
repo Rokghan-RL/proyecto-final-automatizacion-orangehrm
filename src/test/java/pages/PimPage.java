@@ -27,6 +27,10 @@ public class PimPage {
     private final By pestanaAddEmployee = By.xpath("//nav//a[normalize-space()='Add Employee']");
     private final By pestanaEmployeeList = By.xpath("//nav//a[normalize-space()='Employee List']");
 
+    // Locators de spinners y cortinas de carga (vital para evitar intercepción de clics en Firefox/geckodriver)
+    private final By loaderFormulario = By.className("oxd-form-loader");
+    private final By spinnerCarga = By.cssSelector(".oxd-loading-spinner, .oxd-form-loader");
+
     // =========================================================================
     // LOCALIZADORES (By) - Formulario Nuevo Empleado (Add Employee)
     // =========================================================================
@@ -78,6 +82,8 @@ public class PimPage {
      */
     public void irAAgregarEmpleado() {
         Helpers.hacerClic(driver, pestanaAddEmployee);
+        // Esperamos a que el spinner/cortina de carga desaparezca
+        Helpers.esperarInvisibilidad(driver, loaderFormulario, 10);
         // Esperamos que el campo de primer nombre esté visible
         Helpers.esperarVisibilidad(driver, campoPrimerNombre, 15);
     }
@@ -96,6 +102,7 @@ public class PimPage {
 
     /**
      * Completa los campos básicos de identidad del empleado.
+     * Incluye espera explícita a la desaparición del loader para Firefox (geckodriver).
      * 
      * @param primerNombre Primer nombre
      * @param segundoNombre Segundo nombre
@@ -103,6 +110,10 @@ public class PimPage {
      * @param idEmpleado Código identificador único del empleado
      */
     public void completarDatosBasicos(String primerNombre, String segundoNombre, String apellido, String idEmpleado) {
+        // 1. Espera explícita a que el spinner/loader del formulario desaparezca (vital para Firefox/geckodriver)
+        Helpers.esperarInvisibilidad(driver, loaderFormulario, 10);
+
+        // 2. Continuar con el llenado habitual
         Helpers.escribir(driver, campoPrimerNombre, primerNombre);
         Helpers.escribir(driver, campoSegundoNombre, segundoNombre);
         Helpers.escribir(driver, campoApellido, apellido);
@@ -144,9 +155,10 @@ public class PimPage {
      */
     public void guardarEmpleado() {
         Helpers.hacerClic(driver, botonGuardar);
-        // Esperamos confirmación visual del toast de guardado
+        // Esperamos confirmación visual del toast de guardado y desaparición de spinners
         try {
             Helpers.esperarVisibilidad(driver, toastExito, 15);
+            Helpers.esperarInvisibilidad(driver, spinnerCarga, 10);
         } catch (Exception e) {
             System.out.println(">>> [INFO] El toast de éxito desapareció rápidamente o fue redirigido.");
         }
@@ -176,12 +188,15 @@ public class PimPage {
      */
     public void buscarEmpleadoPorId(String idEmpleado) {
         irAListaEmpleados();
+        // Esperamos que desaparezca cualquier spinner del listado antes de escribir
+        Helpers.esperarInvisibilidad(driver, spinnerCarga, 10);
         Helpers.escribir(driver, campoBuscarIdEmpleado, idEmpleado);
         Helpers.hacerClic(driver, botonBuscar);
 
-        // Breve pausa para permitir que la tabla refresque los resultados
+        // Esperamos a que la grilla termine de filtrar y el loader desaparezca
+        Helpers.esperarInvisibilidad(driver, spinnerCarga, 10);
         try {
-            Thread.sleep(2500);
+            Thread.sleep(1500);
         } catch (InterruptedException ignored) {}
     }
 

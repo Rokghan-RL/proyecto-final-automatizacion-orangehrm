@@ -15,3 +15,6 @@ build/
 test-output/
 surefire-reports/
 *.log
+
+# Archivos de sistema macOS
+.DS_Store

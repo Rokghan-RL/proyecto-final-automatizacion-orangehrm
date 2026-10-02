@@ -2,6 +2,7 @@ package tests;
 
 import base.BaseTest;
 import com.aventstack.extentreports.Status;
+import helper.ScreenShotHelper;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -118,5 +119,7 @@ public class OrangeHrmTest extends BaseTest {
         );
 
         ReportManager.getTest().log(Status.PASS, "¡Aserción exitosa! El empleado " + idDinamico + " figura en el listado de PIM.");
+        // Captura de pantalla de evidencia adjunta al reporte HTML
+        ScreenShotHelper.takeScreenShotAndAdToHTMLReport(driver, Status.PASS, "Evidencia: Empleado " + idDinamico + " encontrado en la grilla de PIM");
     }
 }

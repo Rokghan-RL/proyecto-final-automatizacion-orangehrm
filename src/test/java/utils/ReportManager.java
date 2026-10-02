@@ -15,9 +15,21 @@ public class ReportManager {
 
     // Instancia única del reporte global
     private static ExtentReports extent;
+    private static ReportManager instance;
     
     // ThreadLocal permite aislar la información de cada prueba individual sin interferencias
     private static final ThreadLocal<ExtentTest> testHarness = new ThreadLocal<>();
+
+    /**
+     * Retorna la instancia singleton de ReportManager para máxima compatibilidad.
+     */
+    public static synchronized ReportManager getInstance() {
+        if (instance == null) {
+            instance = new ReportManager();
+            iniciarReporte();
+        }
+        return instance;
+    }
 
     /**
      * Inicializa y configura el reporte HTML ExtentReports si aún no ha sido creado.
